@@ -1,6 +1,7 @@
-import { closeDropdown } from '@finsweet/ts-utils';
+import { addListener, closeDropdown } from '@finsweet/ts-utils';
 
 import { fetchCountries, fetchIpInfo } from '$utils/api';
+import { handleArrowDownKeydown, handleArrowUpKeydown, handleEnterKeydown, handleKeydownEvt, handleSearchCountry, handleSpaceKeydown, handleTabKeydown } from '$utils/helpers';
 import type { Country, IpInfo } from '$utils/types';
 
 window.Webflow ||= [];
@@ -17,6 +18,7 @@ window.Webflow.push(async () => {
 
   populateCountryList(countries);
   setDefaultSelectedValue(userLocation, countries);
+  navigateUsingArrows();
 });
 
 const populateCountryList = (countries: Country[]) => {
@@ -129,4 +131,39 @@ const setSelectedValueOnDropdownToggle = (country: Country) => {
 
   itemFlagElement.src = country.flags.png;
   itemValueElement.textContent = country.idd.root + country.idd.suffixes[0];
+};
+
+// navigate using the Arrows, Enter, Space and Tab keys.
+const navigateUsingArrows = () => {
+  const prefixListElement = document.querySelector<HTMLDivElement>('#w-dropdown-list-0 > div');
+  if (!prefixListElement) {
+    console.error('Prefix list element not found');
+    return;
+  }
+
+  addListener(prefixListElement, 'keydown', (event: KeyboardEvent) => {
+    const { key } = event;
+
+    switch (key) {
+      case 'ArrowDown':
+        handleArrowDownKeydown(prefixListElement);
+        break;
+      case 'ArrowUp':
+        handleArrowUpKeydown(prefixListElement);
+        break;
+      case 'Enter':
+        handleEnterKeydown(prefixListElement);
+        break;
+      case 'Space':
+        handleSpaceKeydown(prefixListElement);
+        break;
+      case 'Tab':
+        handleTabKeydown(prefixListElement);
+        break;
+      default:
+        // search for the country by the input value
+        handleSearchCountry(prefixListElement, key);
+        break;
+    }
+  });
 };
