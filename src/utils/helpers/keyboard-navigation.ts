@@ -20,7 +20,6 @@ export const getFocusedItem = (prefixListElement: HTMLDivElement): HTMLAnchorEle
  * @param prefixListElement - The prefix list element.
  */
 export const handleArrowDownKeydown = (prefixListElement: HTMLDivElement | null) => {
-  console.log('handleArrowDownKeydown');
   if (!prefixListElement) return;
 
   const focusedItem = getFocusedItem(prefixListElement);
