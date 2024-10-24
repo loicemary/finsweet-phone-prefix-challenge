@@ -42,7 +42,7 @@ window.Webflow.push(async () => {
     return;
   }
   setSelectedCountry(selectedCountry);
-  // navigateUsingArrows();
+  navigateUsingArrows();
 
   const prefixListWrapperElement = document.querySelector<HTMLDivElement>('#w-dropdown-list-0');
   if (!prefixListWrapperElement) {
