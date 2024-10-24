@@ -1,8 +1,9 @@
 import type { Country, IpInfo } from './types';
 
 /**
- * Get the list of countries
- * @returns {Promise<Country[]>}
+ * Fetches the list of countries from the REST Countries API.
+ * @returns {Promise<Country[]>} A promise that resolves to an array of Country objects.
+ * @throws {Error} If there's an HTTP error or any other issue during the fetch operation.
  */
 export async function fetchCountries(): Promise<Country[]> {
   try {
@@ -21,8 +22,9 @@ export async function fetchCountries(): Promise<Country[]> {
 }
 
 /**
- * Get all countries from the server and return them
- * @returns {Promise<IpInfo | null>}
+ * Fetches IP information from the ipapi.co service.
+ * @returns {Promise<IpInfo | null>} A promise that resolves to an IpInfo object if successful, or null if there's an error.
+ * @throws {Error} If there's an HTTP error or any other issue during the fetch operation.
  */
 export async function fetchIpInfo(): Promise<IpInfo | null> {
   try {
@@ -30,8 +32,8 @@ export async function fetchIpInfo(): Promise<IpInfo | null> {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const userLocation = await response.json(); // Store the response in a variable
-    return userLocation; // Return the user location
+    const userLocation = await response.json();
+    return userLocation;
   } catch (error) {
     console.error('Error fetching user location:', error);
     return null;

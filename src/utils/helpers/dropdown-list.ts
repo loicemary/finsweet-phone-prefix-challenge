@@ -15,6 +15,10 @@ let selectedCountry: Country | null = null;
 let selectedCountryElement: HTMLElement | null = null;
 let currentUserLocationInfo: IpInfo | null = null;
 
+/**
+ * Initializes the dropdown list with countries and sets up event listeners.
+ * @async
+ */
 export const initDropdownList = async () => {
   const countries = await fetchCountries();
 
@@ -66,7 +70,10 @@ export const initDropdownList = async () => {
   watchPrefixList(prefixListWrapperElement, prefixListElement, dropdownToggleElement);
 };
 
-// populate the country list
+/**
+ * Populates the country list in the dropdown.
+ * @param {Country[]} countries - Array of country objects to populate the list.
+ */
 const populateCountryList = (countries: Country[]) => {
   const prefixListWrapperElement = document.querySelector<HTMLDivElement>('#w-dropdown-list-0');
   if (!prefixListWrapperElement) {
@@ -130,7 +137,11 @@ const populateCountryList = (countries: Country[]) => {
   prefixListItemElement.remove();
 };
 
-// Set the current user location as the default selected value
+/**
+ * Sets the selected country in the dropdown.
+ * @param {Country} country - The country object to set as selected.
+ * @param {HTMLAnchorElement} [countryNode] - The DOM element representing the country in the list.
+ */
 const setSelectedCountry = (country: Country, countryNode?: HTMLAnchorElement) => {
   selectedCountry = country;
   // remove w--current class from the previous selected country
@@ -187,7 +198,9 @@ const setSelectedCountry = (country: Country, countryNode?: HTMLAnchorElement) =
   }
 };
 
-// navigate using the Arrows, Enter, Space and Tab keys.
+/**
+ * Sets up keyboard navigation for the dropdown list.
+ */
 const navigateUsingArrows = () => {
   const prefixListElement = document.querySelector<HTMLDivElement>('#w-dropdown-list-0');
   if (!prefixListElement) {
@@ -223,12 +236,19 @@ const navigateUsingArrows = () => {
   });
 };
 
-// scroll to the selected country element
+/**
+ * Scrolls the dropdown list to show the selected country.
+ */
 const scrollToSelectedCountry = () => {
   selectedCountryElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 };
 
-// Observer for the selected country element
+/**
+ * Sets up a MutationObserver to watch for changes in the dropdown list's state.
+ * @param {HTMLDivElement} element - The dropdown list wrapper element.
+ * @param {HTMLDivElement} dropdownList - The dropdown list element.
+ * @param {HTMLDivElement} dropdownToggle - The dropdown toggle element.
+ */
 const watchPrefixList = (
   element: HTMLDivElement,
   dropdownList: HTMLDivElement,
@@ -256,6 +276,9 @@ const watchPrefixList = (
   observer.observe(element, { attributes: true });
 };
 
+/**
+ * Focuses the selected country in the dropdown list and updates its attributes.
+ */
 const focusSelectedCountry = () => {
   selectedCountryElement?.focus();
   selectedCountryElement?.classList.add('w--current');
