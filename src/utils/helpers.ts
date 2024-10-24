@@ -1,3 +1,8 @@
+/**
+ * Get the focused item in the prefix list.
+ * @param prefixListElement - The prefix list element.
+ * @returns The focused item or the first item if no item is focused.
+ */
 export const getFocusedItem = (prefixListElement: HTMLDivElement): HTMLAnchorElement | null => {
   const focusedItem = document.activeElement as HTMLElement;
 
@@ -15,6 +20,7 @@ export const getFocusedItem = (prefixListElement: HTMLDivElement): HTMLAnchorEle
  * @param prefixListElement - The prefix list element.
  */
 export const handleArrowDownKeydown = (prefixListElement: HTMLDivElement | null) => {
+  console.log('handleArrowDownKeydown');
   if (!prefixListElement) return;
 
   const focusedItem = getFocusedItem(prefixListElement);
