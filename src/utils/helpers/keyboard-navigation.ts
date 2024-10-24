@@ -1,7 +1,7 @@
 /**
  * Get the focused item in the prefix list.
- * @param prefixListElement - The prefix list element.
- * @returns The focused item or the first item if no item is focused.
+ * @param {HTMLDivElement} prefixListElement - The prefix list element.
+ * @returns {HTMLAnchorElement | null} The focused item or the first item if no item is focused.
  */
 export const getFocusedItem = (prefixListElement: HTMLDivElement): HTMLAnchorElement | null => {
   const focusedItem = document.activeElement as HTMLElement;
@@ -16,11 +16,10 @@ export const getFocusedItem = (prefixListElement: HTMLDivElement): HTMLAnchorEle
 };
 
 /**
- * Handle the keydown event for the prefix list.
- * @param prefixListElement - The prefix list element.
+ * Handle the arrow down keydown event for the prefix list.
+ * @param {HTMLDivElement | null} prefixListElement - The prefix list element.
  */
 export const handleArrowDownKeydown = (prefixListElement: HTMLDivElement | null) => {
-  console.log('handleArrowDownKeydown');
   if (!prefixListElement) return;
 
   const focusedItem = getFocusedItem(prefixListElement);
@@ -34,8 +33,8 @@ export const handleArrowDownKeydown = (prefixListElement: HTMLDivElement | null)
 };
 
 /**
- * Handle the keydown event for the prefix list.
- * @param prefixListElement - The prefix list element.
+ * Handle the arrow up keydown event for the prefix list.
+ * @param {HTMLDivElement | null} prefixListElement - The prefix list element.
  */
 export const handleArrowUpKeydown = (prefixListElement: HTMLDivElement | null) => {
   if (!prefixListElement) return;
@@ -52,7 +51,7 @@ export const handleArrowUpKeydown = (prefixListElement: HTMLDivElement | null) =
 
 /**
  * Handle the Enter keydown event for the prefix list.
- * @param prefixListElement - The prefix list element.
+ * @param {HTMLDivElement | null} prefixListElement - The prefix list element.
  */
 export const handleEnterKeydown = (prefixListElement: HTMLDivElement | null) => {
   if (!prefixListElement) return;
@@ -65,7 +64,7 @@ export const handleEnterKeydown = (prefixListElement: HTMLDivElement | null) => 
 
 /**
  * Handle the Space keydown event for the prefix list.
- * @param prefixListElement - The prefix list element.
+ * @param {HTMLDivElement | null} prefixListElement - The prefix list element.
  */
 export const handleSpaceKeydown = (prefixListElement: HTMLDivElement | null) => {
   if (!prefixListElement) return;
@@ -78,7 +77,7 @@ export const handleSpaceKeydown = (prefixListElement: HTMLDivElement | null) => 
 
 /**
  * Handle the Tab keydown event for the prefix list.
- * @param prefixListElement - The prefix list element.
+ * @param {HTMLDivElement | null} prefixListElement - The prefix list element.
  */
 export const handleTabKeydown = (prefixListElement: HTMLDivElement | null) => {
   if (!prefixListElement) return;
@@ -91,8 +90,8 @@ export const handleTabKeydown = (prefixListElement: HTMLDivElement | null) => {
 
 /**
  * Handle the search for the country by the input value.
- * @param prefixListElement - The prefix list element.
- * @param key - The key pressed.
+ * @param {HTMLDivElement} prefixListElement - The prefix list element.
+ * @param {string} key - The key pressed.
  */
 export const handleSearchCountry = (prefixListElement: HTMLDivElement, key: string) => {
   if (!prefixListElement || !key) return;
@@ -105,6 +104,12 @@ export const handleSearchCountry = (prefixListElement: HTMLDivElement, key: stri
   }
 };
 
+/**
+ * Search for a country in the dropdown list by the first letter.
+ * @param {HTMLDivElement | null} dropdownList - The dropdown list element.
+ * @param {string} searchQuery - The search query (first letter of the country name).
+ * @returns {HTMLAnchorElement | undefined} The first matching country item, or undefined if not found.
+ */
 export const searchCountry = (dropdownList: HTMLDivElement | null, searchQuery: string) => {
   if (!dropdownList) return;
   const listItems = dropdownList.querySelectorAll<HTMLAnchorElement>('.prefix-dropdown_item');
