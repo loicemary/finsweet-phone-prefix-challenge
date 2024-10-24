@@ -33,6 +33,12 @@ window.Webflow.push(async () => {
     return;
   }
 
+  // Add ARIA attributes to dropdown toggle
+  dropdownToggleElement.setAttribute('role', 'combobox');
+  dropdownToggleElement.setAttribute('aria-haspopup', 'listbox');
+  dropdownToggleElement.setAttribute('aria-expanded', 'false');
+  dropdownToggleElement.setAttribute('aria-controls', 'w-dropdown-list-0');
+
   dropdownToggleElement.focus();
 
   populateCountryList(countries);
@@ -49,6 +55,10 @@ window.Webflow.push(async () => {
     console.error('Prefix list element not found');
     return;
   }
+
+  // Add ARIA attributes to prefix list wrapper
+  prefixListWrapperElement.setAttribute('role', 'listbox');
+  prefixListWrapperElement.setAttribute('aria-hidden', 'true');
 
   const prefixListElement = prefixListWrapperElement.querySelector('div');
   if (!prefixListElement) {
@@ -83,7 +93,7 @@ const populateCountryList = (countries: Country[]) => {
   countries.sort((a, b) => a.cca2.localeCompare(b.cca2));
 
   // loop through countries and set the prefix
-  countries.forEach((country) => {
+  countries.forEach((country, index) => {
     const prefixListItemClone = prefixListItemElement.cloneNode(true) as HTMLAnchorElement; // todo: use HTMLAnchorElement
     // flag element
     const itemFlagElement =
@@ -103,6 +113,11 @@ const populateCountryList = (countries: Country[]) => {
       setSelectedCountry(country, prefixListItemClone);
     }
     prefixListElement.appendChild(prefixListItemClone);
+
+    // Add ARIA attributes to prefix list item
+    prefixListItemClone.setAttribute('role', 'option');
+    prefixListItemClone.setAttribute('aria-selected', 'false');
+    prefixListItemClone.id = `country-option-${index}`;
 
     // add event listener to the prefix list item
     prefixListItemClone.addEventListener('click', () => {
@@ -132,6 +147,10 @@ const setSelectedCountry = (country: Country, countryNode?: HTMLAnchorElement) =
     console.error('Dropdown toggle element not found');
     return;
   }
+
+  // Update ARIA attributes for dropdown toggle
+  dropdownToggleElement.setAttribute('aria-activedescendant', selectedCountryElement?.id || '');
+
   // flag element
   const itemFlagElement =
     dropdownToggleElement.querySelector<HTMLImageElement>('[data-element="flag"]');
@@ -163,6 +182,14 @@ const setSelectedCountry = (country: Country, countryNode?: HTMLAnchorElement) =
     return;
   }
   countryCodeInputElement.value = country.cca2;
+
+  if (selectedCountryElement) {
+    selectedCountryElement.setAttribute('aria-selected', 'false');
+  }
+  if (countryNode) {
+    selectedCountryElement = countryNode;
+    selectedCountryElement.setAttribute('aria-selected', 'true');
+  }
 };
 
 // navigate using the Arrows, Enter, Space and Tab keys.
@@ -221,12 +248,12 @@ const watchPrefixList = (
 
         if (isOpen) {
           scrollToSelectedCountry();
-          dropdownList.ariaHidden = 'false';
-          dropdownToggle.ariaExpanded = 'true';
+          dropdownList.setAttribute('aria-hidden', 'false');
+          dropdownToggle.setAttribute('aria-expanded', 'true');
         } else {
           dropdownToggle.focus();
-          dropdownList.ariaHidden = 'true';
-          dropdownToggle.ariaExpanded = 'false';
+          dropdownList.setAttribute('aria-hidden', 'true');
+          dropdownToggle.setAttribute('aria-expanded', 'false');
         }
       }
     });
@@ -239,4 +266,5 @@ const focusSelectedCountry = () => {
   selectedCountryElement?.focus();
   selectedCountryElement?.classList.add('w--current');
   selectedCountryElement?.setAttribute('tabindex', '0');
+  selectedCountryElement?.setAttribute('aria-selected', 'true');
 };
